@@ -1,0 +1,19 @@
+services:
+  coreai-techspike-document-analysis-api:
+    build:
+      context: .
+      target: production
+    image: coreai-techspike-document-analysis-api
+    container_name: coreai-techspike-document-analysis-api
+    depends_on:
+      - coreai-techspike-document-analysis-api-postgres
+    environment:
+      APPINSIGHTS_CLOUDROLE: coreai-techspike-document-analysis-api-local
+      APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
+
+  coreai-techspike-document-analysis-api-postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: coreai-techspike-document-analysis-api
+      POSTGRES_PASSWORD: ppp
+      POSTGRES_USERNAME: postgres

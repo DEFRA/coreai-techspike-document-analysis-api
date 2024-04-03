@@ -1,0 +1,8 @@
+{{- include "adp-helm-library.deployment" (list . "coreai-techspike-document-analysis-api.deployment") -}}
+{{- define "coreai-techspike-document-analysis-api.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "adp-helm-library.container" (list . "coreai-techspike-document-analysis-api.container") }}
+{{- end -}}

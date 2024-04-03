@@ -1,0 +1,2 @@
+{{- define "coreai-techspike-document-analysis-api.container" -}}
+{{- end -}}

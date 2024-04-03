@@ -1,0 +1,5 @@
+
+{{- include "adp-aso-helm-library.flexible-servers-db" (list . "coreai-techspike-document-analysis-api.flexible-servers-db") -}}
+
+{{- define "coreai-techspike-document-analysis-api.flexible-servers-db" }}
+{{ end -}}

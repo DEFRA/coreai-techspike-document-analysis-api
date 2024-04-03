@@ -1,0 +1,16 @@
+# This override file should be used when running automated tests so
+# that test output is saved to the host
+
+services:
+  coreai-techspike-document-analysis-api:
+    build:
+      target: development
+    image: coreai-techspike-document-analysis-api-development
+    container_name: coreai-techspike-document-analysis-api-test
+    command: npm run test
+    volumes:
+      - ./app:/home/node/app
+      - ./test:/home/node/test
+      - ./test-output:/home/node/test-output
+      - ./jest.config.js:/home/node/jest.config.js
+      - ./package.json:/home/node/package.json
