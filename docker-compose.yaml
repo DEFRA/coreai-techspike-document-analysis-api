@@ -10,10 +10,22 @@ services:
     environment:
       APPINSIGHTS_CLOUDROLE: coreai-techspike-document-analysis-api-local
       APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
+      OPEN_AI_ENDPOINT: ${OPEN_AI_ENDPOINT}
+      OPEN_AI_API_KEY: ${OPEN_AI_API_KEY}
+      OPEN_AI_DEPLOYMENT_ID: ${OPEN_AI_DEPLOYMENT_ID}
+      POSTGRES_DB: coreai_techspike_document_analysis
+      POSTGRES_HOST: ${POSTGRES_HOST:-coreai-techspike-document-analysis-api-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-ppp}
+      POSTGRES_PORT: 5432
+      POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
+      POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
+
+  coreai-techspike-document-analysis-api-azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
 
   coreai-techspike-document-analysis-api-postgres:
-    image: postgres:11.4-alpine
+    image: pgvector/pgvector:pg13
     environment:
-      POSTGRES_DB: coreai-techspike-document-analysis-api
+      POSTGRES_DB: coreai_techspike_document_analysis
       POSTGRES_PASSWORD: ppp
       POSTGRES_USERNAME: postgres

@@ -7,9 +7,21 @@ const server = Hapi.server({
 
 const routes = [].concat(
   require('./routes/healthy'),
-  require('./routes/healthz')
+  require('./routes/healthz'),
+  require('./routes/document'),
+  require('./routes/prompt'),
+  require('./routes/chat')
 )
 
 server.route(routes)
+
+server.route({
+  method: 'GET',
+  path: '/send',
+  handler: (request, h) => {
+    server.publish('/chat', 'hello')
+    return 'Message sent!'
+  }
+})
 
 module.exports = server
