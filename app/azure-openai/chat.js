@@ -5,7 +5,6 @@ const { formatDocumentsAsString } = require('langchain/util/document')
 const { StringOutputParser } = require('@langchain/core/output_parsers')
 const config = require('../config/azure-openai')
 const { loadVectorStore } = require('./vector-store')
-const { ConsoleCallbackHandler } = require('@langchain/core/tracers/console')
 const { BaseCallbackHandler } = require('@langchain/core/callbacks/base')
 
 let chatHistory = []
@@ -22,24 +21,24 @@ just reformulate it if needed and otherwise return it as is.`
 class CustomHandler extends BaseCallbackHandler {
   name = 'custom_handler'
 
-  handleLLMNewToken (token) {
-    console.log('token', { token })
-  }
-
-  handleLLMStart (llm, _prompts) {
+  handleLLMStart (llm, _prompts, parentRunId, extraParams, tags, metadata, runName) {
     console.log('handleLLMStart', { llm })
   }
 
-  handleChainStart (chain) {
-    console.log('handleChainStart', { chain })
+  handleLLMEnd (output, runId, parentRunId, tags) {
+    console.log('handleLLMEnd', { output })
   }
 
-  handleAgentAction (action) {
-    console.log('handleAgentAction', action)
+  handleRetrieverStart (retriever, query, runId, parentRunId, tags, metadata, name) {
+    console.log('handleRetrieverStart', retriever, query, runId)
   }
 
-  handleToolStart (tool) {
-    console.log('handleToolStart', { tool })
+  handleRetrieverEnd (documents, runId, parentRunId, tags) {
+    console.log('handleRetrieverEnd', documents, runId)
+  }
+
+  handleLLMError (err, runId, parentRunId, tags) {
+    console.log('handleLLMError', err, runId)
   }
 }
 
@@ -98,6 +97,8 @@ const askQuestion = async (question) => {
   })
 
   chatHistory = chatHistory.concat(response)
+
+  console.log('response', response)
 
   return { response, chatHistory }
 }
