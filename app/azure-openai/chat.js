@@ -6,6 +6,7 @@ const { StringOutputParser } = require('@langchain/core/output_parsers')
 const config = require('../config/azure-openai')
 const { loadVectorStore } = require('./vector-store')
 const { ConsoleCallbackHandler } = require('@langchain/core/tracers/console')
+const { BaseCallbackHandler } = require('@langchain/core/callbacks/base')
 
 let chatHistory = []
 
@@ -18,13 +19,39 @@ which might reference context in the chat history, formulate a standalone questi
 which can be understood without the chat history. Do NOT answer the question,
 just reformulate it if needed and otherwise return it as is.`
 
+class CustomHandler extends BaseCallbackHandler {
+  name = 'custom_handler'
+
+  handleLLMNewToken (token) {
+    console.log('token', { token })
+  }
+
+  handleLLMStart (llm, _prompts) {
+    console.log('handleLLMStart', { llm })
+  }
+
+  handleChainStart (chain) {
+    console.log('handleChainStart', { chain })
+  }
+
+  handleAgentAction (action) {
+    console.log('handleAgentAction', action)
+  }
+
+  handleToolStart (tool) {
+    console.log('handleToolStart', { tool })
+  }
+}
+
+const handler1 = new CustomHandler()
+
 const askQuestion = async (question) => {
   const model = new ChatOpenAI({
     azureOpenAIApiVersion: '2023-09-15-preview',
     azureOpenAIApiKey: config.azureOpenAIApiKey,
     azureOpenAIApiDeploymentName: config.azureOpenAIApiDeploymentName,
     azureOpenAIApiInstanceName: 'adpaipocuksoai-prototyping',
-    callbacks: [new ConsoleCallbackHandler()]
+    callbacks: [handler1]
   })
 
   const pgvectorStore = await loadVectorStore()
