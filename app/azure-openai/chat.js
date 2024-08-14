@@ -5,6 +5,7 @@ const { formatDocumentsAsString } = require('langchain/util/document')
 const { StringOutputParser } = require('@langchain/core/output_parsers')
 const config = require('../config/azure-openai')
 const { loadVectorStore } = require('./vector-store')
+const { ConsoleCallbackHandler } = require('@langchain/core/tracers/console')
 
 let chatHistory = []
 
@@ -22,7 +23,8 @@ const askQuestion = async (question) => {
     azureOpenAIApiVersion: '2023-09-15-preview',
     azureOpenAIApiKey: config.azureOpenAIApiKey,
     azureOpenAIApiDeploymentName: config.azureOpenAIApiDeploymentName,
-    azureOpenAIApiInstanceName: 'adpaipocuksoai-prototyping'
+    azureOpenAIApiInstanceName: 'adpaipocuksoai-prototyping',
+    callbacks: [new ConsoleCallbackHandler()]
   })
 
   const pgvectorStore = await loadVectorStore()

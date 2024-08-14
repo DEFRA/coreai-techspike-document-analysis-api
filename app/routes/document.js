@@ -25,7 +25,6 @@ module.exports = [{
   },
   handler: async (request, h) => {
     const { orderBy, orderByDirection } = request.query
-    console.log('orderBy', orderBy)
     try {
       const documents = await getDocuments(orderBy, orderByDirection)
       return h.response(documents).code(201)
@@ -54,7 +53,6 @@ module.exports = [{
     const content = await readPDF(document)
     try {
       const response = await callOpenAi(content)
-      console.log('response', response)
     } catch (err) {
       console.error(err)
     }

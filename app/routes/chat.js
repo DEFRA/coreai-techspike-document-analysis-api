@@ -7,8 +7,6 @@ module.exports = {
     try {
       const question = request.query.question
       const { response, chatHistory } = await askQuestion(question)
-      console.log('response', response)
-      console.log('chatHistory', chatHistory)
       return h.response({ response, chatHistory }).code(200)
     } catch (err) {
       console.error(err)

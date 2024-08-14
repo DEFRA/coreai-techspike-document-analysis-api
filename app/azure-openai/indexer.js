@@ -34,9 +34,6 @@ const indexDocuments = async (docs) => {
 
   await addDocumentsToStore(pgvectorStore, splits)
   await pgvectorStore.end()
-
-  console.log(splits[0])
-
   return splits.map(split => ({ metadata: split.metadata }))
 }
 

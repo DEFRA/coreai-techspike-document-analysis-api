@@ -4,7 +4,11 @@ const { StringOutputParser } = require('@langchain/core/output_parsers')
 const config = require('../config/azure-openai')
 
 const promptTemplate = `
-You analyze product descriptions to export them into a JSON format. I will present you with a product data sheet and describe the individual JSON objects and properties with <<<. You then create a JSON object from product data sheet supplied to you at the end.
+You analyze product descriptions contained in [productDescription] to export them into a JSON format. I will present you with a product data sheet and describe the individual JSON objects and properties with <<<. You then create only JSON from product data sheet supplied to you at the end.
+
+[productDescription]
+{text}
+[/productDescription]
 
 >>> Example product:
 
@@ -69,7 +73,7 @@ Shipping carton box
 
 -------------
 
-Provide your JSON in the following schema:
+Provide your JSON output with no other wrapping of text using the following JSON schema:
 
 {{
   "type": "object",

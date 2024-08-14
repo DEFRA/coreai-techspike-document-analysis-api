@@ -10,7 +10,8 @@ const routes = [].concat(
   require('./routes/healthz'),
   require('./routes/document'),
   require('./routes/prompt'),
-  require('./routes/chat')
+  require('./routes/chat'),
+  require('./routes/document-parser')
 )
 
 server.route(routes)
