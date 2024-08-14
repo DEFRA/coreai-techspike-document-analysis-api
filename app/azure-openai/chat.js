@@ -40,6 +40,10 @@ class CustomHandler extends BaseCallbackHandler {
   handleLLMError (err, runId, parentRunId, tags) {
     console.log('handleLLMError', err, runId)
   }
+
+  handleChainStart (chain, inputs, runId) {
+    console.log('handleChainStart', chain, inputs, runId)
+  }
 }
 
 const handler1 = new CustomHandler()
@@ -49,8 +53,7 @@ const askQuestion = async (question) => {
     azureOpenAIApiVersion: '2023-09-15-preview',
     azureOpenAIApiKey: config.azureOpenAIApiKey,
     azureOpenAIApiDeploymentName: config.azureOpenAIApiDeploymentName,
-    azureOpenAIApiInstanceName: 'adpaipocuksoai-prototyping',
-    callbacks: [handler1]
+    azureOpenAIApiInstanceName: 'adpaipocuksoai-prototyping'
   })
 
   const pgvectorStore = await loadVectorStore()
@@ -94,11 +97,9 @@ const askQuestion = async (question) => {
   const response = await ragChain.invoke({
     question,
     chatHistory
-  })
+  }, { callbacks: [handler1] })
 
   chatHistory = chatHistory.concat(response)
-
-  console.log('response', response)
 
   return { response, chatHistory }
 }

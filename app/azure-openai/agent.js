@@ -6,7 +6,6 @@ const config = require('../config/azure-openai')
 const { loadVectorStore } = require('./vector-store')
 
 const askQuestion = async (question) => {
-
   const model = new ChatOpenAI({
     azureOpenAIApiVersion: '2023-09-15-preview',
     azureOpenAIApiKey: config.azureOpenAIApiKey,
